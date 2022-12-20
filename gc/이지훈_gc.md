@@ -21,16 +21,18 @@
 ### Reference Counting
 - 참조횟수 == 0 은 GC의 대상이 된다.
 - 참조횟수 >= 1 은 GC의 대상이 되지 않는다.
-![[ReferenceCounting1.png]]
+![ReferenceCounting1](https://user-images.githubusercontent.com/53300830/208671478-eb8a8f67-b96e-4687-b32e-15db498582e9.png)
+
 - 스택변수 전역변수 등 heap 영역 참조를 담은 변수라고 생각하면 편하다
 
-![[이지훈_gc_image/ReferenceCounting2.png]]
+![ReferenceCounting2](https://user-images.githubusercontent.com/53300830/208671528-85f6dc85-f215-40b7-9e5d-67ed18fa78c9.png)
 
 - Heap 영역에 선언된 객체들이 각각 reference count라는 별도 숫자를 가지고 있다고 생각하면 이후 GC에 대해서 더 편하게 이해가 가능하다!
 - 여기서 reference count는 몇 가지 방법으로 해당 객체에 접근할 수 있는지를 뜻한다.
 - 하나도 없다면 0이 되고, GC에 대상이 되는 것이다.
 
-![[ReferenceCounting3.png]]
+![ReferenceCounting3](https://user-images.githubusercontent.com/53300830/208671573-e50a12b0-efbc-4172-bb76-a755ab08cf7f.png)
+
 
 - 하지만 이런 상황이면 어떻게 될까? 서로 참조를 하고 있는 순환구조인 상태이다.
 - Root Space 에서의 접근을 모두 끊었지만 네모 안에는 서로가 참조를 하고 있기 때문에 Reference Count는 1이 된다.
@@ -40,12 +42,12 @@
 > Reference Counting의 순환 참조 문제를 해결해준다.
 > 루트에서부터 해당 객체에 접근이 가능한지 불가능한지가 기준이 된다.
 
-![[MarkAndSweep1.png]]
+![MarkAndSweep1](https://user-images.githubusercontent.com/53300830/208671673-8ca96286-46d8-4c62-86ea-2e242acde8fc.png)
 - 루트부터 그래프를 순회해서 연결된 객체들을 찾아내고, 연결되지 않은 객체들은 지우게 된다.
 - 루트로부터 연결된 객체는 : Reachable
 - 루트로부터 연결이 끊긴 객체는 : UnReachable
 
-![[MarkAndSweep2.png]]
+![MarkAndSweep2](https://user-images.githubusercontent.com/53300830/208674028-b82ea6fd-0d2c-464d-b417-caeefeb11f64.png)
 - 분산돼 있던 메모리가 정리된 것을 볼 수 있다.
 - 이런 메모리 파편화를 막는 것을 Compaction이라고 한다.
 - Java와 JS 둘 다 이 방식을 사용한다.
@@ -67,26 +69,26 @@
     -   `Survival` 은 `major gc` 로 부터 살아 남은 객체들이 존재한다.
         -   이때 신기한 규칙이 있다. `survival0` 혹은 `survival1` 은 비어있어야만한다.
 
-![[Mark_Sweep_1.png]]
+![Mark_Sweep_1](https://user-images.githubusercontent.com/53300830/208671613-952fca61-066e-4d93-8f18-f5f8c177d18e.png)
 > 위 초록색은 루트로부터 Reachable(살아남을 객체들) 노란색은 UnReachable(해제될 객체들)이라 판단된 객체입니다.
 
 -   이렇게 Reachable이라 판단된 객체는 Survival로 옮겨지게 됩니다.
 
 
-![[Mark_Sweep_2.png]]
+![Mark_Sweep_2](https://user-images.githubusercontent.com/53300830/208671620-ed4b48a7-7bd9-46d5-b28f-9e237ab6a6de.png)
 -   Survival 0으로 옮겨진 객체들의 숫자가 1로 바뀌게 된다. (그리고 노란색 객체들을 참조가 해제됩니다.)
 -   해당 숫자는 `age-bit` 라고 한다. `major gc` 에서 살아남을때마다 `+1` 이 된다.
 
 
-![[Mark_Sweep_3.png]]
+![Mark_Sweep_3](https://user-images.githubusercontent.com/53300830/208671622-5a25b1f6-e50a-4e68-9f96-15a8a6a6f57a.png)
 - 시간이 흘러 Eden에 또 꽉차면 Reachable이라 판단된 객체들이 Survival1로 옮겨지게 된다.
 
 
-![[Mark_Sweep_4.png]]
+![Mark_Sweep_4](https://user-images.githubusercontent.com/53300830/208671623-0e6680fe-bdfc-4e5c-b5ae-645564579165.png)
 
 - 이렇게 계속해서 반복이 된다.
 
-![[Mark_Sweep_5.png]]
+![Mark_Sweep_5](https://user-images.githubusercontent.com/53300830/208671624-ffd03486-c908-4e57-b9a3-4f646e0d7ddd.png)
 -   이러한 과정 속에서 `age-bit` 가 3이 된 객체가 있다고 가정하겠습니다.
 -   일정 수준의 `age-bit` 를 넘어가면 오래도록 참조될 객체라는 것으로 판단하여 `Old Generation`으로 옮겨가게 됩니다. 이것을 `promotion` 이라고 부른다.
     -   Java 8기준으로는 `age-bit`가 15가 되면 `promotion`이 진행이 된다.
@@ -121,7 +123,8 @@
 - 그러나 Serail GC는 GC를 처리하는 스레드가 하나인 것에 비해, Parallel GC는 GC를 처리하는 스레드가 여러 개이다.
 - 그렇기 때문에 Serail GC 보다 빠르게 객체를 처리할 수 있다.
 - Parallel GC는 메모리가 충분하고 코어의 개수가 많을 때 유리하다.
-![[SerialVsParallel.png]]
+
+![SerialVsParallel](https://user-images.githubusercontent.com/53300830/208671860-28f23b6d-8d31-46fc-b009-01795c7a17fe.png)
 
 ### Parallel Old GC
 > 앞서 설명한 Parallel GC와 비교하여 Old 영역의 GC 알고리즘만 다르다.
@@ -137,7 +140,7 @@
 - Concurrent Sweep 단계에서는 쓰레기를 정리하는 작업을 실행한다.
 	- 이 작업도 다른 스레드가 실행되고 있는 상황에서 진행한다.
 
-![[CMS.png]]
+![CMS](https://user-images.githubusercontent.com/53300830/208671907-bf7a495a-b7ee-4a58-bf36-9f0603380b16.png)
 
 ==하지만 확실한 단점이 존재한다.==
 - 다른 GC 방식보다 메모리와 CPU를 더 많이 사용한다.
@@ -151,14 +154,15 @@
 - Humonogous: Region 크기의 50%를 초과하는 큰 객체를 저장하기 위한 공간
 - Available/Unused: 아직 사용되지 않은 Region
 
-![[G1GC 1.png]]
+![G1GC](https://user-images.githubusercontent.com/53300830/208671981-185c3b53-9580-4f2c-ad62-9be304c30933.png)
 - 해당 영역이 꽉 차면 다른 영역에서 객체를 할당하고 GC를 실행한다.
 - 지금까지 설명한 Young의 세가지 영역에서 데이터가 Old 영역으로 이동하는 단계가 사라진 GC 방식으로 이해하면 된다.
 
 ## 🧐 G1 GC에 대해서 조금만 더 깊게 들어가보자!
 
 ### G1 GC의 Cycle
-![[G1GC의Cycle.png]]
+![G1GC의Cycle](https://user-images.githubusercontent.com/53300830/208672033-73fc111c-6715-4ff8-911e-5e50624b7b00.png)
+
 - Young-Only와 Space Reclamation를 반복한다.
 - 사이클 중 모든 원은 STW가 발생한 것을 나타낸 것이고, 원의 크기에 따라 STW 소요 시간이 달라진다고 생각하면 된다!
 ### Young Only
@@ -177,21 +181,22 @@
 	- Space Reclamation이 끝나면 다시 Young Only로 돌아가서 Minor GC를 실행한다.
 
 ### G1 GC Minor GC(Young Generation) 동작 과정
-![[G1_MInor_1.png]]
+![G1_MInor_1](https://user-images.githubusercontent.com/53300830/208672082-ce974ce0-13a8-42eb-8139-237e4aac343c.png)
 - 연속되지 않은 메모리 공간에 Young Generation이 Region 단위로 메모리에 할당된다.
 
-![[G1_MInor_2.png]]
+![G1_MInor_2](https://user-images.githubusercontent.com/53300830/208672091-e73e2bad-a5d9-4129-90b6-494258feef9f.png)
 - Young Generation에 있는 유효 객체를 Survivor Region이나 Old Generation으로 copy or move한다.
 - 이 단계에서 STW가 발생하고, Eden Region과 Survivor Region의 크기는 Minor GC를 위해 다시 계산된다.
 
-![[G1_MInor_3.png]]
+![G1_MInor_3](https://user-images.githubusercontent.com/53300830/208672096-ef5fd112-182c-4bc7-9783-52ac16286572.png)
+
 - Minor GC를 모두 마친 후의 모습이다.
 - 청록색 영역은 Eden 영역에서 Survivor 영역으로 이동하거나 Survivor에서 Survivor로 이동한 것을 뜻한다.
 
 ### G1 GC Major GC(Old GC) 동작 과정
 > Minor GC와 원리가 비슷하나 멀티 스레드에서 병렬로 동작한다.
 
-![[G1_Major_1 1.png]]
+![G1_Major_1 1](https://user-images.githubusercontent.com/53300830/208673430-7b9c5bf2-939f-4746-ab2b-6268b4338256.png)
 - Initial Mark 단계는 Old Region에 존재하는 객체들이 참조하는 Survivor Region이 있는지 파악 후 Survivor Region에 마킹하는 단계이다.
 - Survivor Region에 의존하기 때문에 Survivor Region은 깔끔한 상태여야 하고, Survivor Region이 깔끔하려면 Minor GC가 전부 끝난 상태여야 한다.
 - 따라서 Inital Mark는 Minor GC에 의존적이며, STW를 발생한다.
@@ -200,26 +205,26 @@
 - 멀티 스레드로 동작하며 다음 Minor GC가 발생하기 전에 동작을 완료한다.
 
 
-![[G1_Major_2 1.png]]
+![G1_Major_2 1](https://user-images.githubusercontent.com/53300830/208673547-9cdbb1a9-684c-41b2-bf2a-261e904ba983.png)
 - Concurrent Marking 단계에서는 Old Generation 내에 생존해 있는 모든 객체를 마킹한다.
 - STW가 발생하지 않으므로 애플리케이션 스레드와 동시에 동작하고, Minor GC와 같이 진행하므로 Minor GC에 의해 중단될 수 있다.
 - 사진에서 X 표시된 Region은 모든 객체가 Garbage 상태인 영역이다.
 
 
-![[G1_Major_3 1.png]]
+![G1_Major_3 1](https://user-images.githubusercontent.com/53300830/208673666-5ff68c55-0dfa-46f6-b9c5-de6f074de1e8.png)
 - Remark 단계는 Concurrent Mark 단계에서 X표시된 영역을 회수한다. -> STW 발생
 	- Mark 단계를 마저 끝낸다.
 	- 이때 SATB(Snapshot-At-The-Beginning) 기법을 사용하기 때문에 CMS GC보다 더 빠르다.
 	- SATB는 STW 이후 살아있는 객체에만 마킹하는 알고리즘이다.
 
 
-![[G1_Major_4.png]]
+![G1_Major_4](https://user-images.githubusercontent.com/53300830/208673707-2142f5d1-e8f7-4d79-8ff9-b3b5c00df009.png)
 - Copying/Cleanup 단계에서는 STW가 발생하며 Live Ojbect의 비율이 낮은 영역 순으로 순차적으로 수거해간다.
 - 먼저 해당 영여게서 Live Object를 다른 영역으로 move or copy한 후 Grabage를 수집한다.
 - G1 GC는 이렇게 Garbage의 수집을 우선해서 계속하며 요유 공간을 신속하게 확보해 둔다.
 
 
-![[G1_Major_5.png]]
+![G1_Major_5](https://user-images.githubusercontent.com/53300830/208673743-4056040d-8ef9-4beb-9b94-1fd02beeaf5f.png)
 - Major GC가 끝난 이후 Live Object가 새로운 Region으로 이동하고 메모리 Compaction이 일어나서 깔끔해진다.
 
 ### Minxed GC
