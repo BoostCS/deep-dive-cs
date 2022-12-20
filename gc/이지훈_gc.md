@@ -21,16 +21,17 @@
 ### Reference Counting
 - 참조횟수 == 0 은 GC의 대상이 된다.
 - 참조횟수 >= 1 은 GC의 대상이 되지 않는다.
-
-![[ReferenceCounting1 1.png]]
+![[ReferenceCounting1.png]]
 - 스택변수 전역변수 등 heap 영역 참조를 담은 변수라고 생각하면 편하다
 
-![[ReferenceCounting2 1.png]]
+![[이지훈_gc_image/ReferenceCounting2.png]]
+
 - Heap 영역에 선언된 객체들이 각각 reference count라는 별도 숫자를 가지고 있다고 생각하면 이후 GC에 대해서 더 편하게 이해가 가능하다!
 - 여기서 reference count는 몇 가지 방법으로 해당 객체에 접근할 수 있는지를 뜻한다.
 - 하나도 없다면 0이 되고, GC에 대상이 되는 것이다.
 
-![[ReferenceCounting3 1.png]]
+![[ReferenceCounting3.png]]
+
 - 하지만 이런 상황이면 어떻게 될까? 서로 참조를 하고 있는 순환구조인 상태이다.
 - Root Space 에서의 접근을 모두 끊었지만 네모 안에는 서로가 참조를 하고 있기 때문에 Reference Count는 1이 된다.
 **사용하지는 않지만 GC에서는 얘 사용 중이야! 하는 것으로 오해를 하고 있기 때문에 Memory Leak 가 생기게 됩니다.**
@@ -39,12 +40,12 @@
 > Reference Counting의 순환 참조 문제를 해결해준다.
 > 루트에서부터 해당 객체에 접근이 가능한지 불가능한지가 기준이 된다.
 
-![[MarkAndSweep1 2.png]]
+![[MarkAndSweep1.png]]
 - 루트부터 그래프를 순회해서 연결된 객체들을 찾아내고, 연결되지 않은 객체들은 지우게 된다.
 - 루트로부터 연결된 객체는 : Reachable
 - 루트로부터 연결이 끊긴 객체는 : UnReachable
 
-![[MarkAndSweep2 2.png]]
+![[MarkAndSweep2.png]]
 - 분산돼 있던 메모리가 정리된 것을 볼 수 있다.
 - 이런 메모리 파편화를 막는 것을 Compaction이라고 한다.
 - Java와 JS 둘 다 이 방식을 사용한다.
