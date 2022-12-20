@@ -21,6 +21,7 @@
 ### Reference Counting
 - 참조횟수 == 0 은 GC의 대상이 된다.
 - 참조횟수 >= 1 은 GC의 대상이 되지 않는다.
+
 ![ReferenceCounting1](https://user-images.githubusercontent.com/53300830/208671478-eb8a8f67-b96e-4687-b32e-15db498582e9.png)
 
 - 스택변수 전역변수 등 heap 영역 참조를 담은 변수라고 생각하면 편하다
