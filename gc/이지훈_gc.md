@@ -274,31 +274,6 @@ fun main() {
 
 ```kotlin
 /**  
- * a라는 문자열이 1byte라면 현재 예시에서는 5mb 정도 되는 것이다. 
- * 자바에서는 String을 유니코드 2byte로 메모리를 갖고 있기 때문에 실제로 메모리에 20mb 정도 차지한다. 
- * 그럼 뮤니코드가 2byte면 아스키코드에서는 1byte로 갖고 있을 수 있으니까 byte로 갖고 있어보자. 
- * */
-fun main() {  
-    Util.printHeap(0)  
-  
-    // StringBuffer의 경우에는 총 사용량을 지정해주는 것이 효과적이다.  
-    val sb = StringBuffer(Util.max)  
-    for (i in 0 until Util.max) {  
-        sb.append("a")  
-    }    
-    Util.printHeap(1)  
-    Util.printHeap(2)  
-  
-    /**  
-     0 Heap: 432,120 bytes     
-     1 Heap: 10,601,936 bytes     
-     2 Heap: 10,599,440 bytes     
-     */
- }
-```
-
-```kotlin
-/**  
  * 메모리단에서 String으로 갖고 있느냐 byte 상태로 갖고 있느냐에 따라서 두 배 정도 차이가 있다. 
  * 파일에 데이터를 엑세스하거나 할 때 참고할만한 자료이다! 
  * */
@@ -322,48 +297,7 @@ fun main() {
 }
 ```
 
-```kotlin
-/**  
- * StringBuffer보다 훨씬 큰 모습이다. 
- * String을 Array에 담기 위해서 부가 정보들이 들어가기 때문에 더 클 수 밖에 없다. 
- * */
-fun main() {  
-    Util.printHeap(0)  
-  
-    val arr = ArrayList<String>()  
-    for (i in 0 until Util.max) {  
-        arr.add("a")  
-    }    
-    Util.printHeap(1)  
-    Util.printHeap(2)  
-  
-    /**  
-     0 Heap: 432,712 bytes     
-     1 Heap: 25,213,152 bytes     
-     2 Heap: 25,212,800 bytes     
-     */
-}
-```
 
-```kotlin
-fun main() {  
-    Util.printHeap(0)  
-  
-    // max 사이즈를 지정하니까 조금 줄어드는 모습이다.  
-    val arr = ArrayList<String>(Util.max + 1)  
-    for (i in 0 until Util.max) {  
-        arr.add("a")  
-    }    
-    Util.printHeap(1)  
-    Util.printHeap(2)  
-  
-    /**  
-     0 Heap: 432,712 bytes     
-     1 Heap: 20,601,704 bytes     
-     2 Heap: 20,599,208 bytes     
-     */
- }
-```
 
 ### 질문 예시
 - GC가 무엇이고 장단점은 어떻게 되는지?
