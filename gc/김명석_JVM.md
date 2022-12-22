@@ -17,19 +17,19 @@
 	- 클래스 인스턴는 사용자 코드에의해 생성되고 GC에 의해 파괴
 - 네트워크 바이트오더 (빅 엔디안)
 
->[!note] Symbolic Reference
->참조하는 클래스의 메모리주소가 아닌 대상의 이름으로 참조 하는것
->![image](https://user-images.githubusercontent.com/9216335/208907692-def3ddec-4451-4027-93d7-ecba753098e2.png)
->![image](https://user-images.githubusercontent.com/9216335/208907755-ca574d99-ce12-4b00-b323-16d47ceb9432.png)
+>[!note] Symbolic Reference  
+>참조하는 클래스의 메모리주소가 아닌 대상의 이름으로 참조 하는것  
+>![image](https://user-images.githubusercontent.com/9216335/208907692-def3ddec-4451-4027-93d7-ecba753098e2.png)  
+>![image](https://user-images.githubusercontent.com/9216335/208907755-ca574d99-ce12-4b00-b323-16d47ceb9432.png)  
 
->[! note] Byte Order
->각각에서 0x12345678 이라는 정수가 어떤 식으로 저장되는지 살펴보자
->**Big Endian**
->낮은 주소에서 높은 바이트 부터 저장
->![image](https://user-images.githubusercontent.com/9216335/208900796-33f17885-a5a3-4aa1-b6e3-4a44d0920c75.png)
->**Little Endian**
->낮은 주소에서 낮은 바이트 부터 저장
->![image](https://user-images.githubusercontent.com/9216335/208902397-a94823c4-81a4-4144-b217-ca1aea076fde.png)
+>[! note] Byte Order  
+>각각에서 0x12345678 이라는 정수가 어떤 식으로 저장되는지 살펴보자  
+>**Big Endian**  
+>낮은 주소에서 높은 바이트 부터 저장  
+>![image](https://user-images.githubusercontent.com/9216335/208900796-33f17885-a5a3-4aa1-b6e3-4a44d0920c75.png)  
+>**Little Endian**  
+>낮은 주소에서 낮은 바이트 부터 저장  
+>![image](https://user-images.githubusercontent.com/9216335/208902397-a94823c4-81a4-4144-b217-ca1aea076fde.png)  
 
 ### JVM 구성 요소
 ![image](https://user-images.githubusercontent.com/9216335/208897070-89f9b89a-0af5-4456-9a90-b38d05d048a6.png)
