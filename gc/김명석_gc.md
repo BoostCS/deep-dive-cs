@@ -1,26 +1,3 @@
-## JVM 
-
-- 운영체제 메모리 영역에 접근하여 메모리를 관리하는 프로그램  
-- 메모리 관리, Garbage Collector 역활 수행
-
-### JVM 구성 요소
-![JVM 구성요소](https://user-images.githubusercontent.com/9216335/208658204-7f72ed4c-4f9c-4070-895c-bb2a2b9876b3.png)
-
-**Class Loader**  
-바이트코드를 읽고, 클래스 정보를 메모리의 Heap/Method Area에 저장  
-**Memory**  
-실행 중인 프로그램의 정보가 올라가 있는 메모리
-- Heap/Method Area : 모든 쓰레드가 공유하는 영역
-  - Method Area : 클래스 구조를 메타데이터 처럼 가지고 있으며 메서드의 코드를 저장
-  - Heap : 어플리케이션 실행 중에 생성되는 객체 인스턴스를 저장
-- Stack/PC Register/Native Method Stack : 각 쓰레드마다 고유하게 생성 쓰레드 종료 시 소멸
-  - Stack : 메서드 호출을 스택 프레임이라는 블록으로 쌓으며 로컬 변수, 중간 연산 결과들이 저장
-  - PC Register : 쓰레드가 현재 실행할 Stack Frame의 주소를 저장
-  - Native Method Stack : C/C++ 등의 Low level 코드를 실행하는 스택
-
-**Execution Engine**  
-바이트코드를 네이티브 코드로 변환, GC 를 실행
-
 ## GC 
 
 - 동적으로 할당한 메모리 영역 중 사용하지 않는 영역을 탐지하여 해제하는 기능  
@@ -124,7 +101,7 @@
 - Compaction을 사용한다
 - Java9 부터 default GC 방식
 
-## JVM GC 튜닝 맛보기
+## JVM GC 튜닝
 > 코드레벨에서 튜닝이 이루어지고 하는 최종 단계의 튜닝
 - 목표
   - Old Generation 으로 넘어가는 객체 최소화하기
@@ -135,4 +112,3 @@
   - GC 상태 모니터링 하기
   - 알맞은 GC방식과 메모리 크기 설정
   - 적용하기
-  
