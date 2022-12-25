@@ -12,6 +12,6 @@
 |---|---|
 
 ## 정리
-|이슈|기간|공유|
+|이슈|공유|정리|
 |---|---|---|
-|https://github.com/BoostCS/deep-dive-cs/issues/3|2022.12.20 ~ 2022.12.21|[gc](https://github.com/BoostCS/deep-dive-cs/tree/main/gc)|
+|https://github.com/BoostCS/deep-dive-cs/issues/3|[gc](https://github.com/BoostCS/deep-dive-cs/tree/main/gc)|2022.12.20 ~ 2022.12.21|
